@@ -1,4 +1,6 @@
 import { Geist_Mono, IBM_Plex_Sans_Arabic } from "next/font/google"
+import { Direction } from "radix-ui"
+import { TooltipProvider } from "@/components/ui/tooltip"
 
 import "./globals.css"
 import { cn } from "@/lib/utils"
@@ -30,7 +32,11 @@ export default function RootLayout({
         ibmPlexSansArabic.variable
       )}
     >
-      <body>{children}</body>
+      <body>
+        <Direction.Provider dir="rtl">
+          <TooltipProvider>{children}</TooltipProvider>
+        </Direction.Provider>
+      </body>
     </html>
   )
 }

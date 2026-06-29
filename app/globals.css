@@ -94,3 +94,18 @@
     @apply font-sans;
     }
 }
+
+/*
+ * RTL scroll-lock fix.
+ *
+ * When a Radix overlay (dropdown, select, dialog…) opens, react-remove-scroll
+ * locks body scroll and compensates for the removed scrollbar with
+ * `margin-right` on `body[data-scroll-locked]`. That is correct for LTR, but in
+ * RTL the scrollbar sits on the left, so the right-side compensation causes a
+ * horizontal layout shift. Mirror the compensation to the left instead.
+ */
+html[dir="rtl"] body[data-scroll-locked] {
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+  margin-left: var(--removed-body-scroll-bar-size, 0px) !important;
+}
