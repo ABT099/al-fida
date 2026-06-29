@@ -20,8 +20,8 @@ import { Input } from "@/components/ui/input"
 import { GalleryVerticalEndIcon } from "lucide-react"
 
 const loginSchema = z.object({
-  email: z.email("Enter a valid email address."),
-  password: z.string().min(6, "Password must be at least 6 characters."),
+  email: z.email("أدخل بريدًا إلكترونيًا صالحًا."),
+  password: z.string().min(6, "يجب أن تكون كلمة المرور 6 أحرف على الأقل."),
 })
 
 type LoginFormValues = z.infer<typeof loginSchema>
@@ -46,7 +46,7 @@ export function LoginForm({
     const { error } = await supabase.auth.signInWithPassword(values)
 
     if (error) {
-      setServerError("Invalid email or password.")
+      setServerError("البريد الإلكتروني أو كلمة المرور غير صحيحة.")
       return
     }
 
@@ -68,13 +68,13 @@ export function LoginForm({
               </div>
               <span className="sr-only">Acme Inc.</span>
             </a>
-            <h1 className="text-xl font-bold">Welcome to Acme Inc.</h1>
+            <h1 className="text-xl font-bold">مرحبًا بكم في Acme Inc.</h1>
             <FieldDescription>
-              Enter your email and password to sign in to your account.
+              أدخل بريدك الإلكتروني وكلمة المرور لتسجيل الدخول إلى حسابك.
             </FieldDescription>
           </div>
           <Field>
-            <FieldLabel htmlFor="email">Email</FieldLabel>
+            <FieldLabel htmlFor="email">البريد الإلكتروني</FieldLabel>
             <Input
               id="email"
               type="email"
@@ -85,7 +85,7 @@ export function LoginForm({
             <FieldError errors={[errors.email]} />
           </Field>
           <Field>
-            <FieldLabel htmlFor="password">Password</FieldLabel>
+            <FieldLabel htmlFor="password">كلمة المرور</FieldLabel>
             <Input
               id="password"
               type="password"
@@ -98,7 +98,7 @@ export function LoginForm({
           {serverError && <FieldError>{serverError}</FieldError>}
           <Field>
             <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Signing in…" : "Login"}
+              {isSubmitting ? "جارٍ تسجيل الدخول…" : "تسجيل الدخول"}
             </Button>
           </Field>
         </FieldGroup>

@@ -9,11 +9,11 @@ export default async function Page() {
 
   return (
     <div>
-      <h1>Welcome</h1>
+      <h1>اهلا بكم</h1>
       {session?.session ? (
-        <p>You are logged in as {session.session.user.email}</p>
+        <p>أنت مسجل الدخول كـ {session.session.user.email}</p>
       ) : (
-        <p>You are not logged in.</p>
+        <p>أنت غير مسجل الدخول.</p>
       )}
     </div>
   )
