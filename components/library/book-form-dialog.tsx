@@ -87,9 +87,19 @@ export function BookFormDialog({
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={(next) => {
+        if (pending) return
+        setOpen(next)
+      }}
+    >
       {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
-      <DialogContent>
+      <DialogContent
+        showCloseButton={!pending}
+        onInteractOutside={(e) => pending && e.preventDefault()}
+        onEscapeKeyDown={(e) => pending && e.preventDefault()}
+      >
         <DialogHeader>
           <DialogTitle>{isEdit ? "تعديل كتاب" : "إضافة كتاب"}</DialogTitle>
           <DialogDescription>
@@ -106,6 +116,7 @@ export function BookFormDialog({
               name="name"
               defaultValue={book?.name}
               required
+              disabled={pending}
             />
           </div>
           <div className="flex flex-col gap-3">
@@ -114,6 +125,7 @@ export function BookFormDialog({
               id="author"
               name="author"
               defaultValue={book?.metadata?.author}
+              disabled={pending}
             />
           </div>
           <div className="flex flex-col gap-3">
@@ -128,6 +140,7 @@ export function BookFormDialog({
               name="cover"
               type="file"
               accept="image/*"
+              disabled={pending}
               onChange={(e) => {
                 const error = validateFileSize(
                   e.target.files?.[0],
@@ -152,6 +165,7 @@ export function BookFormDialog({
               name="file"
               type="file"
               required={!isEdit}
+              disabled={pending}
               onChange={(e) => {
                 const error = validateFileSize(
                   e.target.files?.[0],
@@ -166,7 +180,7 @@ export function BookFormDialog({
           </div>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline" type="button">
+              <Button variant="outline" type="button" disabled={pending}>
                 إلغاء
               </Button>
             </DialogClose>
