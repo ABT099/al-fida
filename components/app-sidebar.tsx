@@ -12,13 +12,14 @@ import {
   SidebarMenu,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { navItems } from "@/lib/nav-items"
+import { navItems, type NavItem } from "@/lib/nav-items"
 import {
-  LayoutDashboardIcon,
-  UsersIcon,
-  LibraryBigIcon,
   BookIcon,
+  CalendarDaysIcon,
   CalendarIcon,
+  LayoutDashboardIcon,
+  LibraryBigIcon,
+  UsersIcon,
 } from "lucide-react"
 
 const icons: Record<string, React.ReactNode> = {
@@ -26,11 +27,16 @@ const icons: Record<string, React.ReactNode> = {
   "/library": <LibraryBigIcon />,
   "/courses": <BookIcon />,
   "/academic-year": <CalendarIcon />,
+  "/semesters": <CalendarDaysIcon />,
   "/students": <UsersIcon />,
 }
 
-const data = {
-  navMain: navItems.map((item) => ({ ...item, icon: icons[item.url] })),
+function addIcons(item: NavItem): NavItem & { icon?: React.ReactNode } {
+  return {
+    ...item,
+    icon: icons[item.url],
+    children: item.children?.map(addIcons),
+  }
 }
 
 export function AppSidebar({
@@ -55,7 +61,7 @@ export function AppSidebar({
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={navItems.map(addIcons)} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={user} />

@@ -3,54 +3,51 @@ import { PlusIcon } from "lucide-react"
 
 import { createClient } from "@/lib/supabase/server"
 import { Button } from "@/components/ui/button"
-import { StudentFormDialog } from "@/components/students/student-form-dialog"
+import { SemesterFormDialog } from "@/components/semesters/semester-form-dialog"
 import {
-  StudentsTable,
-  type Student,
+  SemestersGrid,
+  type Semester,
   type YearOption,
-  type SemesterOption,
-} from "@/components/students/students-table"
+  type CourseOption,
+} from "@/components/semesters/semesters-grid"
 
 export default async function Page() {
   const supabase = createClient(await cookies())
 
-  const [{ data: students }, { data: years }, { data: semesters }] =
+  const [{ data: semesters }, { data: years }, { data: courses }] =
     await Promise.all([
       supabase
-        .from("students")
+        .from("semesters")
         .select(
-          "*, academic_year:academic_years!year_id(id, label), semester_enrollements(semester_id)"
+          "*, academic_year:academic_years!acedemic_year_id(id, label), semesters_courses(course_id)"
         )
         .order("created_at", { ascending: false }),
       supabase
         .from("academic_years")
         .select("id, label")
         .order("starts_at", { ascending: false }),
-      supabase
-        .from("semesters")
-        .select("id, name, acedemic_year_id")
-        .order("name"),
+      supabase.from("courses").select("id, name").order("name"),
     ])
 
   return (
     <div className="flex flex-col gap-4 px-4 sm:px-6 lg:px-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">الطلاب</h1>
-        <StudentFormDialog
+        <h1 className="text-2xl font-semibold">الفصول الدراسية</h1>
+        <SemesterFormDialog
           years={(years as YearOption[]) ?? []}
-          semesters={(semesters as SemesterOption[]) ?? []}
+          courses={(courses as CourseOption[]) ?? []}
           trigger={
             <Button>
               <PlusIcon data-icon="inline-start" />
-              إضافة طالب
+              إضافة فصل دراسي
             </Button>
           }
         />
       </div>
-      <StudentsTable
-        students={(students as Student[]) ?? []}
+      <SemestersGrid
+        semesters={(semesters as Semester[]) ?? []}
         years={(years as YearOption[]) ?? []}
-        semesters={(semesters as SemesterOption[]) ?? []}
+        courses={(courses as CourseOption[]) ?? []}
       />
     </div>
   )
