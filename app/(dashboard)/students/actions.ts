@@ -6,6 +6,10 @@ import { createClient } from "@/lib/supabase/server"
 
 type ActionResult = { error?: string }
 
+function isForeignKeyViolation(error: { code?: string }) {
+  return error.code === "23503"
+}
+
 export async function createStudent(formData: FormData): Promise<ActionResult> {
   const supabase = createClient(await cookies())
 
@@ -79,7 +83,12 @@ export async function deleteStudent(id: number): Promise<ActionResult> {
   await supabase.from("semester_enrollements").delete().eq("student_id", id)
 
   const { error } = await supabase.from("students").delete().eq("id", id)
-  if (error) return { error: "فشل حذف الطالب" }
+  if (error) {
+    if (isForeignKeyViolation(error)) {
+      return { error: "لا يمكن حذف هذا الطالب لوجود درجات امتحانات مسجلة له" }
+    }
+    return { error: "فشل حذف الطالب" }
+  }
 
   revalidatePath("/students")
   return {}

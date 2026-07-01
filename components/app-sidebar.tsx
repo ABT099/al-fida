@@ -17,6 +17,7 @@ import {
   BookIcon,
   CalendarDaysIcon,
   CalendarIcon,
+  ClipboardCheckIcon,
   LayoutDashboardIcon,
   LibraryBigIcon,
   UsersIcon,
@@ -29,6 +30,7 @@ const icons: Record<string, React.ReactNode> = {
   "/academic-year": <CalendarIcon />,
   "/semesters": <CalendarDaysIcon />,
   "/students": <UsersIcon />,
+  "/exams": <ClipboardCheckIcon />,
 }
 
 function addIcons(item: NavItem): NavItem & { icon?: React.ReactNode } {

@@ -17,4 +17,5 @@ export const navItems: NavItem[] = [
     ],
   },
   { title: "الطلاب", url: "/students" },
+  { title: "الامتحانات", url: "/exams" },
 ]

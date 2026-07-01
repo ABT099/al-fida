@@ -109,3 +109,26 @@ html[dir="rtl"] body[data-scroll-locked] {
   padding-right: 0 !important;
   margin-left: var(--removed-body-scroll-bar-size, 0px) !important;
 }
+
+/*
+ * Printable reports (e.g. /exams/report) reuse the dashboard layout, so we hide
+ * the app chrome globally on print rather than giving the report its own layout.
+ */
+@media print {
+  /* Browsers drop background colors/images by default when printing. Force them
+     to render so the report's colored header/badges/zebra-striping survive
+     print-to-PDF instead of turning into plain black-and-white text. */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  [data-slot="sidebar"] {
+    display: none !important;
+  }
+  body {
+    background: white;
+  }
+  @page {
+    margin: 1.2cm;
+  }
+}
