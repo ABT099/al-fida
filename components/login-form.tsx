@@ -66,9 +66,9 @@ export function LoginForm({
               <div className="flex size-8 items-center justify-center rounded-md">
                 <GalleryVerticalEndIcon className="size-6" />
               </div>
-              <span className="sr-only">Acme Inc.</span>
+              <span className="sr-only">دار الفداء</span>
             </a>
-            <h1 className="text-xl font-bold">مرحبًا بكم في Acme Inc.</h1>
+            <h1 className="text-xl font-bold">مرحبًا بكم في دار الفداء</h1>
             <FieldDescription>
               أدخل بريدك الإلكتروني وكلمة المرور لتسجيل الدخول إلى حسابك.
             </FieldDescription>
